@@ -73,6 +73,26 @@ ERROR: midore/reading-git-book doesn't exist yet. Did you enter it correctly?
 fatal: The remote end hung up unexpectedly
 
 # ブラウザでgithub.com にログインし reading-git-book プロジェクトを作成する必要があった。
+# 新しい reading-git-book プロジェクトを作ったらブラウザに指示書が表示された。
+# git init, git add , git commit はすませてあるので
+% git remote add origin git@github.com:midore/reading-git-book.git
+% git push origin master
+
+# 無事に　git push origin master は成功した。
+# 今の readingbook-git-book/.git/config 状態
+
+% more .git/config 
+[core]
+        repositoryformatversion = 0
+        filemode = true
+        bare = false
+        logallrefupdates = true
+[remote "reading-git-book"]
+        url = git://github.com/midore/reading-git-book.git
+        fetch = +refs/heads/*:refs/remotes/reading-git-book/*
+[remote "origin"]
+        url = git@github.com:midore/reading-git-book.git
+        fetch = +refs/heads/*:refs/remotes/origin/*
 
 # ------------------------------ 部分変更重要
 p.56
