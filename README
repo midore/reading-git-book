@@ -94,6 +94,12 @@ fatal: The remote end hung up unexpectedly
         url = git@github.com:midore/reading-git-book.git
         fetch = +refs/heads/*:refs/remotes/origin/*
 
+# ------------------------------ ssh-agent
+# git push したあと後始末することを忘れがち。
+% ps aux | grep ssh
+% kill ssh-agent's pid
+
+
 # ------------------------------ 部分変更重要
 p.56
 # 一枚のファイルの中の複数の変更箇所を分割してコミットできる
