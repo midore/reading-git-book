@@ -94,6 +94,23 @@ fatal: The remote end hung up unexpectedly
         url = git@github.com:midore/reading-git-book.git
         fetch = +refs/heads/*:refs/remotes/origin/*
 
+# どうやら　[remote "reading-git-book"] の部分は今の私には必要なかったようだ。
+% git remote --help
+% git remote rm reading-git-book
+% more .git/config 
+[core]
+        repositoryformatversion = 0
+        filemode = true
+        bare = false
+        logallrefupdates = true
+[remote "origin"]
+        url = git@github.com:midore/reading-git-book.git
+        fetch = +refs/heads/*:refs/remotes/origin/*
+
+# p.210 を先読み
+% git remote
+origin
+
 # ------------------------------ ssh-agent
 # git push したあと後始末することを忘れがち。
 % ps aux | grep ssh
