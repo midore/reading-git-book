@@ -42,10 +42,12 @@ nothing to commit (working directory clean)
 # ログをみる
 % git log -p
 
+See: http://learn.github.com/p/intro.html
 
+# ------------------------------ .git/config の状態
 # ローカル内で git init しただけの場合のリモート先には
 # [remote] は存在していない。[core] があるだけ。
-# http://learn.github.com/ のリモート先設定方法を閲覧しながら試す。
+# http://help.github.com/remotes/ のリモート先設定方法を閲覧しながら試す。
 
 # 今作った reading-git-book のリモート先を
 # github.com/midore/reading-git-book.git に設定してみる。
