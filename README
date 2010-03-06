@@ -1,0 +1,182 @@
+Git 入門書をよみながら
+
+p.42-p.55
+% mkdir reading-git-book
+% cd reading-git-book
+% git init
+% touch README
+% vim REAME
+% git add .
+% git commit -m 'first commit'
+
+# add 前に何が add されるかみる。
+% git diff
+# add した後、commit 前に何が commit されるかみる。
+% git diff HEAD
+
+# 全てのファイルの変更を add する。
+% git add -u
+
+# 状態確認。もしも README が編集されていたら
+% git status
+# On branch master
+# Changed but not updated:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   README
+と表示される。
+
+何も変更されていなければ
+% git status
+# On branch master
+nothing to commit (working directory clean)
+
+# index に登録したくないファイル名を登録
+% vim .gitignore
+% git add .gitignore
+
+# 一気に全てのファイルを add しコミットする
+% git commit -a -m 'All files commit'
+
+# ログをみる
+% git log -p
+
+
+# ローカル内で git init しただけの場合のリモート先には
+# [remote] は存在していない。[core] があるだけ。
+# http://learn.github.com/ のリモート先設定方法を閲覧しながら試す。
+
+# 今作った reading-git-book のリモート先を
+# github.com/midore/reading-git-book.git に設定してみる。
+% more .git/config 
+[core]
+        repositoryformatversion = 0
+        filemode = true
+        bare = false
+        logallrefupdates = true
+
+% git remote add reading-git-book git://github.com/midore/reading-git-book.git
+% more .git/config
+[core]
+        repositoryformatversion = 0
+        filemode = true
+        bare = false
+        logallrefupdates = true
+[remote "reading-git-book"]
+        url = git://github.com/midore/reading-git-book.git
+        fetch = +refs/heads/*:refs/remotes/reading-git-book/*
+
+# try
+% git push git@github.com:midore/reading-git-book.git master
+ERROR: midore/reading-git-book doesn't exist yet. Did you enter it correctly?
+fatal: The remote end hung up unexpectedly
+
+# ブラウザでgithub.com にログインし reading-git-book プロジェクトを作成する必要があった。
+
+# ------------------------------ 部分変更重要
+p.56
+# 一枚のファイルの中の複数の変更箇所を分割してコミットできる
+% git add -p filename
+
+hunk が分かれていなかった場合はs を選択するとより細かく hunk が分割される。
+y で選択し n で次、q で終了
+% git add -p してすぐにリターンするとヘルプをみることができる。
+
+% git diff --cached  
+でコミット内容を確認
+% git commit -v
+で詳細内容をみながらコメント文を作成する
+
+# ------------------------------ コミットする前にコミット内容の確認
+p.59
+# これからコミットする内容を確認できる
+% git diff --cached
+
+# Editor が起動する。これから何をコミットするかが一目瞭然なのでコメントを書きやすい。とても便利
+% git commit -v
+
+# コミットした内容を確認する。最新の一つ
+% git show
+
+% 特定のファイルだけをコミットしたい時はそのファイルをadd した後にファイル名を指定してcommit できる。
+% git commit -m 'added ignore file' .gitignore
+
+% git add -A 
+で全てのファイルをindex にadd したとしてその後、特定のファイルだけを次回コミットから外したい時は
+% git reset tmpfile
+
+# ------------------------------ ログ検索
+p.68
+# ログの要約だけを表示
+% git log --pretty=short
+
+# ファイル名で探す
+% git log --pretty=short index.html
+
+# keyword で探す
+% git log --pretty=short --grep='Hello'
+# or 検索
+% git log --pretty=short --grep='Hello' --grep='log'
+# and 検索
+% git log --pretty=short --all-match --grep='Hello' --grep='log'
+# その他
+% git log --author='author name'
+
+# この行はどのコミットに所属しているのかを一行ずつ表示してくれる。
+% git blame README
+
+# ------------------------------ 変更取り消し
+p.71
+% git status
+# On branch master
+# Changed but not updated:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   README
+
+% git revert 39d9f92c
+error: Your local changes to 'README' would be overwritten by merge.  Aborting.
+Please, commit your changes or stash them before you can merge.
+
+ファイルを編集した直後に　% git revert 39d9f92c
+するとエラーになる。
+% git add -u
+% git revert 39d9f92c
+fatal: Dirty index: cannot revert
+
+add しただけでコミットしていないとエラーになる。
+
+# ------------------------------ 直前のコミットをなかったことにする
+p.72
+% git reset HEAD^
+
+# ------------------------------ 直前のコミット文章を書き直す
+p.74
+% git add filename
+% git commit -m '間違ったコメント'
+% git commit --amend
+
+# ------------------------------ 3つ前以降のコミットを書き換える
+p.75
+% git rebase -i HEAD~3
+変更したいコミット行を、pick からedit にし保存しエディタを終了する。
+
+file を編集してよい。
+
+% git commit --amend -a
+[detached HEAD 3670cae] TEST 1
+ 1 files changed, 2 insertions(+), 1 deletions(-)
+% git rebase --continue
+Successfully rebased and updated refs/heads/master.
+
+3つ前のコミット内容に今しがた編集した内容が反映されているようになる。
+
+# ------------------------------ 2カ所で使う
+p.78
+mkdir /pub/repository/reading-git-book
+cd /pub/repository/reading-git-book
+git --bare init
+
+
