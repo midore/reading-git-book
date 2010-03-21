@@ -225,3 +225,22 @@ cd /pub/repository/reading-git-book
 git --bare init
 
 
+試してみたこと
+mkdir backup-mdiary
+cd backup-mdiary
+git clone /path/to/mdiary .
+
+% more .git/config 
+[core]
+        repositoryformatversion = 0
+        filemode = true
+        bare = false
+        logallrefupdates = true
+[remote "origin"]
+        fetch = +refs/heads/*:refs/remotes/origin/*
+        url = /path/to/mdiary/
+[branch "master"]
+        remote = origin
+        merge = refs/heads/master
+
+
